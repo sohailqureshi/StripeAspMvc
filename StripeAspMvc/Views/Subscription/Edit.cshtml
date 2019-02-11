@@ -1,0 +1,49 @@
+﻿@model StripeAspMvc.Models.Book.SubscriptionPlanViewModel
+
+@{
+	ViewBag.Title = "Edit Subscription";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Subscription Plan (Edit)</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary("", new { @class = "text-danger" })
+	@Html.HiddenFor(x => x.ProductId)
+	@Html.HiddenFor(x => x.PlanId)
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				@Html.LabelFor(x => x.Name)
+				@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.Name)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(x => x.Amount)
+				@Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @readonly=true})
+				@Html.ValidationMessageFor(x => x.Amount)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(x => x.Currency)
+				@Html.TextBoxFor(x => x.Currency, new { @class = "form-control", @readonly = true })
+				@Html.ValidationMessageFor(x => x.Currency)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(x => x.Interval)
+				@Html.TextBoxFor(x => x.Interval, new { @class = "form-control", @readonly = true })
+				@Html.ValidationMessageFor(x => x.Interval)
+			</div>
+		</div>
+		<button style="float:right;" type="submit" class="btn btn-primary">Save</button>
+	</div>
+}
+
+
+
+

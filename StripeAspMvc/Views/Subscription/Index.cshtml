@@ -1,8 +1,58 @@
-﻿
+﻿@model IEnumerable<StripeAspMvc.Models.Book.SubscriptionProductPlans>
+@using Stripe;
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Plans</h2>
+<h2>Subscription Plans</h2>
+<a href="subscription/create" class="btn btn-primary">Create New</a>
+<br />
+@if (Model.Any())
+{
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Active</td>
+				<td>Type</td>
+				<td class="text-right">Amount</td>
+				<td>Interval</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var product in Model)
+			{
+				<tr>
+					<td>@Html.ActionLink(product.Product.Name, "Edit", new { id = product.Product.Id })</td>
+					<td>@Html.DisplayFor(x => product.Product.Active)</td>
+					<td>@Html.DisplayFor(x => product.Product.Type)</td>
 
+					@{
+						string amount = string.Empty;
+						string interval = string.Empty;
+						string currency = string.Empty;
+					}
+					@if (product.Plan.Any())
+					{
+						var firstPlan = product.Plan.FirstOrDefault();
+						interval = firstPlan.Interval;
+						currency = firstPlan.Currency.ToUpper();
+
+						var plan = firstPlan.Amount??0;
+						amount = string.Format("{0:N2}", Convert.ToDecimal(plan) / 100);
+					}
+					<td>
+						<span class="pull-left">@currency</span>
+						<span class="pull-right">@amount</span>
+					</td>
+					<td>per @interval</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<h3>No subscriptions found!</h3>
+}

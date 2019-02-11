@@ -19,7 +19,7 @@ namespace StripeAspMvc
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            StripeConfiguration.SetApiKey(ConfigurationManager.AppSettings["stripeSecretKey"]);
+            StripeConfiguration.SetApiKey(ConfigurationManager.AppSettings["StripeApi.SecretKey"]);
         }
     }
 }
